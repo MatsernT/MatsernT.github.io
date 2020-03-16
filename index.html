@@ -1,92 +1,106 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Gjestebok</title>
+        <title>Bokliste</title>
     </head>
 
     
     <body>
-        <p>Skriv navnet ditt og skriv en tilbakemelding eller noe annet!</p>
         
         <form>
-            <input type="text" id="txtNavn" placeholder="Navn">
-            <input type="text" id="txtTekst" placeholder="Tekst">
-            <input type="button" value="Send Inn" id="btnSvar" onclick="kommenter()">
+            Tittel:
+            <input type="text" id="txtTittel" placeholder=""> <br>
+            Utgivelsesår:
+            <input type="text" id="txtUtår" placeholder="dd/mm/yyyy"> <br>
+            Navn på forfatter:
+            <input type="text" id="txtNavn" placeholder=""> <br>
+            Forlag:
+            <input type="text" id="txtForlag" placeholder=""> <br>
             
+            <label for="bok">Terningkast:</label>
+            <select id="bok">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
             
+            <br>
+            <br>
+            
+            <input type="button" value="Send inn!" id="knapp" onclick="sendInn()">
         </form>
-            <div id="tekstsvar"></div>
+        
+       
+        
     </body>
-    
-    
-    <script> 
-    let txtNavn = document.querySelector("#txtNavn")
-            let txtTekst = document.querySelector("#txtTekst")
-            let tekstsvar = document.querySelector("#tekstsvar")
-            
-            
-            function kommenter(){
-                
-                let Navn = txtNavn.value
-                let Tekst = txtTekst.value
-                
-                console.log (Navn + Tekst)
-                tekstsvar.innerHTML += `<div> ${Navn} ${Tekst}</div>`
-            }
 
-    </script>
     
-        
-        
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-database.js"></script>
-<!-- TODO:<scr Add SDKs for Firebase products that you want to use
+    
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
 
 <script>
   // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyCcn4AUfz5vI0U52Jo2X5uvnN5tp3NH7aw",
-    authDomain: "fir-start-e8031.firebaseapp.com",
-    databaseURL: "https://fir-start-e8031.firebaseio.com",
-    projectId: "fir-start-e8031",
-    storageBucket: "fir-start-e8031.appspot.com",
-    messagingSenderId: "335215449684",
-    appId: "1:335215449684:web:703d40ef25d3210561bfc1"
+    apiKey: "AIzaSyAb7Mnx4inawOOmrKspKz21szrH4DAVeSo",
+    authDomain: "bokliste-1.firebaseapp.com",
+    databaseURL: "https://bokliste-1.firebaseio.com",
+    projectId: "bokliste-1",
+    storageBucket: "bokliste-1.appspot.com",
+    messagingSenderId: "51354622939",
+    appId: "1:51354622939:web:f4471b4cd6300c590fe5fe"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>
+        
+<script>
+let db = firebase.database();
     
-    <script>
-    let db = firebase.database();
-    
-    let besoksbok = db.ref("besoksbok");
+    let bokliste = db.ref("bokliste");
         
         
-    function kommenter(){
+    function sendInn(){
+        
+        var tittel_in = document.getElementById("txtTittel").value;
+        var utår_in = document.getElementById("txtUtår").value;
         var navn_in = document.getElementById("txtNavn").value;
-        var beskjed_in = document.getElementById("txtTekst").value;
+        var forlag_in = document.getElementById("txtForlag").value;
+        var vurdering_in = document.getElementById("bok").value;
+        
         var today = new Date();
         var dateTime = today.getFullYear()+"0"+today.getDate()+""+today.getHours()+""+today.getMinutes()+""+today.getSeconds();
-        let nyBrukerPost = besoksbok.child(dateTime);
-        nyBrukerPost.set({
-            Navn: navn_in,
-            Tekst: beskjed_in
-        })
     
-        let new_object = besoksbok.child(navn_in);
+      
+    
+        let new_object = bokliste.child(dateTime);
         
-        new_object.set(
-        {
-            txtNavn : navn_in , txtTekst : beskjed_in
+        new_object.set({
+            tittel : tittel_in,
+            utgivelsesår : utår_in,
+            forfatter : navn_in,
+            forlag : forlag_in,
+            vurdering : vurdering_in, 
+            
+            
         }
         );
         window.alert("Beskjed lagt til i database")
     }
+ 
     
+    
+  
     </script>
-
+    
+    
 </html>    
